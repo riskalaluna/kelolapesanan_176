@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #5c5c5c;
+        }
+
+        /* Styling untuk header bagian kiri atas */
+        .header {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .header a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #fff;
+            padding: 10px;
+            background-color: #ffb3b3; /* Pastel Pink */
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .header a:hover {
+            background-color: #ff9999; /* Hover effect */
+        }
+
+        /* Styling untuk katalog bunga */
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .catalog-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s;
+            background-color: #f0f8ff; /* Pastel Blue */
+        }
+
+        .catalog-item:hover {
+            transform: scale(1.05);
+        }
+
+        .catalog-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .catalog-item h3 {
+            color: #ff6f61; /* Pastel Coral */
+            margin-top: 10px;
+        }
+
+        .catalog-item p {
+            color: #777;
+            margin: 5px 0;
+        }
+
+        .catalog-item .price {
+            color: #5c5c5c;
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+
+        .catalog-item .stock {
+            color: #3d8f3d; /* Green for stock */
+            font-weight: bold;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header dengan tombol Login dan Signup -->
+    <div class="header">
+        <a href="/auth/login">Login</a>
+        <a href="/auth/signup">Signup</a>
+    </div>
+
+    <!-- Judul Halaman -->
+    <h1>Selamat Datang di Toko Bunga kami!</h1>
+
+    <!-- Katalog Bunga -->
+    <div class="catalog">
+        <!-- Item 1 -->
+        <div class="catalog-item">
+            <img src="https://via.placeholder.com/300x200" alt="Bunga Mawar">
+            <h3>Bunga Mawar</h3>
+            <p>Deskripsi: Bunga mawar merah yang indah dan harum.</p>
+            <p class="price">Harga: Rp 50.000</p>
+            <p class="stock">Stok: 25</p>
+        </div>
+        
+        <!-- Item 2 -->
+        <div class="catalog-item">
+            <img src="https://via.placeholder.com/300x200" alt="Bunga Melati">
+            <h3>Bunga Melati</h3>
+            <p>Deskripsi: Melati putih dengan aroma yang menenangkan.</p>
+            <p class="price">Harga: Rp 40.000</p>
+            <p class="stock">Stok: 30</p>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="catalog-item">
+            <img src="https://via.placeholder.com/300x200" alt="Bunga Anggrek">
+            <h3>Bunga Anggrek</h3>
+            <p>Deskripsi: Anggrek eksotis yang mempesona.</p>
+            <p class="price">Harga: Rp 75.000</p>
+            <p class="stock">Stok: 15</p>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="catalog-item">
+            <img src="https://via.placeholder.com/300x200" alt="Bunga Lili">
+            <h3>Bunga Lili</h3>
+            <p>Deskripsi: Bunga lili putih yang elegan.</p>
+            <p class="price">Harga: Rp 60.000</p>
+            <p class="stock">Stok: 20</p>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="catalog-item">
+            <img src="https://via.placeholder.com/300x200" alt="Bunga Tulip">
+            <h3>Bunga Tulip</h3>
+            <p>Deskripsi: Keindahan bunga tulip yang cerah dan berwarna.</p>
+            <p class="price">Harga: Rp 80.000</p>
+            <p class="stock">Stok: 18</p>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="catalog-item">
+            <img src="https://via.placeholder.com/300x200" alt="Bunga Daisy">
+            <h3>Bunga Daisy</h3>
+            <p>Deskripsi: Bunga daisy yang ceria dan penuh warna.</p>
+            <p class="price">Harga: Rp 45.000</p>
+            <p class="stock">Stok: 22</p>
+        </div>
+    </div>
+
+   
+
+</body>
+</html>

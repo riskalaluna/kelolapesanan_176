@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Mengatur font dasar dan latar belakang */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff; /* Warna pastel biru */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Mengatur tata letak container login */
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Judul halaman */
+        h1 {
+            color: #5c5c5c;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Pesan error */
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* Input field */
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #ff6f61; /* Warna pastel coral */
+            outline: none;
+        }
+
+        /* Tombol login */
+        button {
+            background-color: #ff6f61; /* Warna pastel coral */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff4040; /* Warna lebih gelap saat hover */
+        }
+
+        /* Tautan daftar */
+        p {
+            font-size: 14px;
+        }
+
+        a {
+            color: #ff6f61; /* Warna pastel coral */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #ff4040; /* Warna lebih gelap saat hover */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Container login -->
+    <div class="login-container">
+        <h1>Login</h1>
+
+        <!-- Menampilkan pesan error jika ada -->
+        <% if (error) { %>
+            <p class="error"><%= error %></p>
+        <% } %>
+
+        <!-- Form login -->
+        <form action="/auth/login" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- Tautan untuk registrasi -->
+        <p>Belum punya akun? <a href="/auth/signup">Daftar di sini</a></p>
+    </div>
+
+</body>
+</html>

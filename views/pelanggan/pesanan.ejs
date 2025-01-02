@@ -1,0 +1,10 @@
+<h1>Pesanan Anda</h1>
+<ul>
+    <% pesanan.forEach(item => { %>
+        <li>
+            <h2>ID Pesanan: <%= item.kd_pesan %></h2>
+            <p>Total Harga: Rp <%= item.total_harga %></p>
+            <p>Tanggal Pesan: <%= item.tgl_pesan %></p>
+        </li>
+    <% }); %>
+</ul>

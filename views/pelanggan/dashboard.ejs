@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Pelanggan</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Tambahkan file CSS jika ada -->
+</head>
+<body>
+    <header>
+        <h1>Selamat Datang di Toko Bunga</h1>
+        <nav>
+            <ul>
+                <% if (isLoggedIn) { %>
+                    <li>Halo, <%= username %></li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/auth/login">Login</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Katalog Bunga</h2>
+        <div class="katalog">
+            <% bunga.forEach((item) => { %>
+                <div class="bunga">
+                    <img src="<%= item.gambar %>" alt="<%= item.nama_bunga %>">
+                    <h3><%= item.nama_bunga %></h3>
+                    <p><%= item.deskripsi %></p>
+                    <p>Harga: Rp<%= item.harga %></p>
+                </div>
+            <% }) %>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Toko Bunga</p>
+    </footer>
+</body>
+</html>
