@@ -1,67 +1,40 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db');
+const db = require('../db');
 
-// Halaman Login
 router.get('/login', (req, res) => {
-    res.render('auth/login', { error: null });
+    res.render('login');
 });
 
-// Proses Login
-router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-
-    try {
-        const [users] = await db.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password]);
-
-        if (users.length > 0) {
-            const user = users[0];
-
-            // Simpan data ke session
-            req.session.user = {
-                id: user.id,
-                username: user.username,
-                role: user.role, // role: 'admin' atau 'pelanggan'
-            };
-
-            if (user.role === 'admin') {
-                res.redirect('/admin/dashboard');
-            } else if (user.role === 'pelanggan') {
-                res.redirect('/pelanggan/dashboard');
-            }
-        } else {
-            res.render('auth/login', { error: 'Username atau password salah!' });
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
+router.post('/login', (req, res) => {
+    const { usn, pw } = req.body;
+    if (usn === 'admin' && pw === 'diemaja') {
+        req.session.admin = true;
+        return res.redirect('/admin/dashboard');
     }
-});
 
-// Logout
-router.get('/logout', (req, res) => {
-    req.session.destroy(() => {
-        res.redirect('/');
+    db.query('SELECT * FROM pelanggan WHERE usn_pelanggan = ? AND pw_pelanggan = ?', [usn, pw], (err, results) => {
+        if (err) throw err;
+        if (results.length > 0) {
+            req.session.user = results[0];
+            res.redirect('/pelanggan');
+        } else {
+            res.send('Login gagal.');
+        }
     });
 });
 
-// Halaman Signup
 router.get('/signup', (req, res) => {
-    res.render('auth/signup', { error: null });
+    res.render('signup');
 });
 
-// Proses Signup
-router.post('/signup', async (req, res) => {
-    const { username, password } = req.body;
-
-    try {
-        // Tambahkan user ke database
-        await db.query('INSERT INTO users (username, password, role) VALUES (?, ?, ?)', [username, password, 'pelanggan']);
-        res.redirect('/auth/login');
-    } catch (err) {
-        console.error(err);
-        res.render('auth/signup', { error: 'Gagal mendaftar. Coba lagi!' });
-    }
+router.post('/signup', (req, res) => {
+    const { nama_pelanggan, alamat, usn_pelanggan, pw_pelanggan } = req.body;
+    db.query('INSERT INTO pelanggan (nama_pelanggan, alamat, usn_pelanggan, pw_pelanggan) VALUES (?, ?, ?, ?)',
+        [nama_pelanggan, alamat, usn_pelanggan, pw_pelanggan], (err) => {
+            if (err) throw err;
+            res.redirect('/auth/login');
+        });
 });
 
 module.exports = router;

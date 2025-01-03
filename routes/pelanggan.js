@@ -1,34 +1,40 @@
 const express = require('express');
 const router = express.Router();
-const { isPelanggan } = require('../middlewares/auth');
-const db = require('../config/db');
+const db = require('../db');
 
-// Dashboard Pelanggan
-router.get('/dashboard', isPelanggan, async (req, res) => {
-    try {
-        const [bunga] = await db.query('SELECT * FROM bunga');
-        res.render('pelanggan/dashboard', { bunga, username: req.session.user.username });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
-    }
+router.get('/', (req, res) => {
+    db.query('SELECT * FROM bunga', (err, results) => {
+        if (err) throw err;
+        const isLoggedIn = req.session.user ? true : false;
+        const username = isLoggedIn ? req.session.user.nama_pelanggan : null;
+        res.render('pelanggan/dashboard', {
+            bunga: results,
+            isLoggedIn: isLoggedIn,
+            username: username,
+        });
+    });
 });
 
-// Buat Pesanan
-router.post('/pesanan', isPelanggan, async (req, res) => {
-    const { bungaId, jumlah } = req.body;
 
-    try {
-        await db.query('INSERT INTO pesanan (pelanggan_id, bunga_id, jumlah) VALUES (?, ?, ?)', [
-            req.session.user.id,
-            bungaId,
-            jumlah,
-        ]);
-        res.redirect('/pelanggan/dashboard');
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
-    }
+router.post('/beli', (req, res) => {
+    if (!req.session.user) return res.redirect('/auth/login');
+    const { kd_bunga, jumlah } = req.body;
+    db.query('SELECT * FROM bunga WHERE kd_bunga = ?', [kd_bunga], (err, results) => {
+        if (err) throw err;
+        if (results.length > 0 && results[0].stok >= jumlah) {
+            const totalHarga = results[0].Harga * jumlah;
+            db.query('INSERT INTO pesanan (id_pelanggan, kd_pesanan, tgl_pesan, total_harga) VALUES (?, ?, NOW(), ?)',
+                [req.session.user.id_pelanggan, `${Date.now()}`, totalHarga], (err) => {
+                    if (err) throw err;
+                    db.query('UPDATE bunga SET stok = stok - ? WHERE kd_bunga = ?', [jumlah, kd_bunga], (err) => {
+                        if (err) throw err;
+                        res.redirect('/pelanggan');
+                    });
+                });
+        } else {
+            res.send('Stok tidak mencukupi.');
+        }
+    });
 });
 
 module.exports = router;

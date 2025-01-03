@@ -1,44 +1,35 @@
 const express = require('express');
 const session = require('express-session');
+const path = require('path');
+const multer = require('multer');
+const db = require('./db');
+
 const app = express();
-const authRoutes = require('./routes/auth');
-const adminRoutes = require('./routes/admin');
-const pelangganRoutes = require('./routes/pelanggan');
+const port = 3000;
 
 app.set('view engine', 'ejs');
-app.set('views', './views'); // Pastikan folder views ada di root proyek
-
-// Middleware Session
-app.use(
-    session({
-        secret: 'your_secret_key',
-        resave: false,
-        saveUninitialized: true,
-    })
-);
-
-// Middleware Parsing Body
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(session({
+    secret: 'tokobungaSecret',
+    resave: false,
+    saveUninitialized: true,
+}));
 
-// Rute untuk halaman utama
+// Routes
+const pelangganRoutes = require('./routes/pelanggan');
+const adminRoutes = require('./routes/admin');
+const authRoutes = require('./routes/auth');
+
+app.use('/pelanggan', pelangganRoutes);
+app.use('/admin', adminRoutes);
+app.use('/auth', authRoutes);
+
+// Default route
 app.get('/', (req, res) => {
-    if (req.session.user) {
-        if (req.session.user.role === 'admin') {
-            res.redirect('/admin/dashboard');
-        } else if (req.session.user.role === 'pelanggan') {
-            res.redirect('/pelanggan/dashboard');
-        }
-    } else {
-        res.render('home'); // Pastikan file `home.ejs` ada di folder views
-    }
+    res.redirect('/pelanggan');
 });
 
-// Rute lainnya
-app.use('/auth', authRoutes);
-app.use('/admin', adminRoutes);
-app.use('/pelanggan', pelangganRoutes);
-
-// Jalankan Server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
